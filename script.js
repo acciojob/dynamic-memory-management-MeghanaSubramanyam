@@ -2,17 +2,15 @@ const limit = 50; // Heap memory usage limit in MB
 let elements = []; // Array to hold generated DOM elements
 const memoryDisplay = document.getElementById("memory");
 
-// Function to simulate memory usage (rough estimate)
+// Function to estimate memory usage
 const getMemoryUsage = () => {
-  // Assuming each element uses approx 0.1MB
-  return (elements.length * 0.1).toFixed(2);
+  // Assume each DOM element uses approximately 0.005 MB (5 KB)
+  return (elements.length * 0.005).toFixed(2);
 };
 
-// Function to generate DOM elements
+// Function to generate 10,000 DOM elements
 const generateElements = () => {
-  const container = document.createElement("div");
-
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 10000; i++) {
     const el = document.createElement("div");
     el.textContent = "Element " + (elements.length + 1);
     el.className = "generated";
@@ -26,7 +24,7 @@ const generateElements = () => {
   updateMemoryUsage();
 };
 
-// Function to remove DOM elements
+// Function to remove all DOM elements
 const removeElements = () => {
   elements.forEach(el => {
     if (el.parentNode) {
@@ -37,20 +35,20 @@ const removeElements = () => {
   updateMemoryUsage();
 };
 
-// Function to update memory usage display
+// Function to update memory usage and display warning if limit exceeded
 const updateMemoryUsage = () => {
   const usage = getMemoryUsage();
   memoryDisplay.textContent = `Estimated Heap Memory Usage: ${usage} MB`;
 
   if (usage > limit) {
-    alert("⚠️ Memory usage exceeded the limit!\n\nSuggestions:\n• Remove unused elements.\n• Avoid generating too many elements at once.\n• Consider pagination or lazy-loading.");
+    alert("Memory usage has exceeded 50 MB. Please optimize your actions to reduce memory consumption.");
   }
 };
 
-// Event listeners
+// Attach event listeners
 document.getElementById("generate").addEventListener("click", generateElements);
 document.getElementById("remove").addEventListener("click", removeElements);
 
-// Periodically update memory usage display
+// Periodic update
 setInterval(updateMemoryUsage, 1000);
 
